@@ -1,0 +1,159 @@
+info:
+  name: Hidden Adventures Slice 1
+  description: Read-only smoke tests for the local Hidden Adventures rebuild API.
+  schema: https://schema.getpostman.com/json/collection/v2.1.0/collection.json
+item:
+  - name: Health
+    item:
+      - name: GET health
+        request:
+          method: GET
+          url: "{{baseUrl}}/health"
+          description: Verify the server process and Postgres health check are both up.
+        event:
+          - listen: test
+            script:
+              type: text/javascript
+              exec:
+                - pm.test("health returns 200", function () {
+                - "  pm.response.to.have.status(200);"
+                - "});"
+                - const json = pm.response.json();
+                - pm.test("health reports ok", function () {
+                - "  pm.expect(json.ok).to.eql(true);"
+                - "  pm.expect(json.service).to.eql(\"hidden-adventures-server\");"
+                - "  pm.expect(json.checks.database.ok).to.eql(true);"
+                - "});"
+  - name: Feed
+    item:
+      - name: GET feed (public)
+        request:
+          method: GET
+          url: "{{baseUrl}}/feed?limit={{limit}}&offset={{offset}}"
+          description: Return the public feed only.
+        event:
+          - listen: test
+            script:
+              type: text/javascript
+              exec:
+                - pm.test("public feed returns 200", function () {
+                - "  pm.response.to.have.status(200);"
+                - "});"
+                - const json = pm.response.json();
+                - pm.test("feed payload shape is valid", function () {
+                - "  pm.expect(json).to.have.property(\"items\");"
+                - "  pm.expect(json).to.have.property(\"paging\");"
+                - "  pm.expect(json.items).to.be.an(\"array\");"
+                - "});"
+                - "if (json.items.length > 0) {"
+                - "  pm.environment.set(\"publicAdventureId\", json.items[0].id);"
+                - "}"
+      - name: GET feed (connected viewer)
+        request:
+          method: GET
+          url: "{{baseUrl}}/feed?viewerHandle={{connectedViewerHandle}}&limit={{limit}}&offset={{offset}}"
+          description: Return feed items visible to a connected viewer.
+        event:
+          - listen: test
+            script:
+              type: text/javascript
+              exec:
+                - pm.test("viewer feed returns 200", function () {
+                - "  pm.response.to.have.status(200);"
+                - "});"
+                - const json = pm.response.json();
+                - pm.test("viewer feed payload shape is valid", function () {
+                - "  pm.expect(json.items).to.be.an(\"array\");"
+                - "  pm.expect(json.paging.returned).to.be.a(\"number\");"
+                - "});"
+  - name: Adventures
+    item:
+      - name: GET adventure by id (public)
+        request:
+          method: GET
+          url: "{{baseUrl}}/adventures/{{publicAdventureId}}"
+          description: Fetch a known public adventure detail response.
+        event:
+          - listen: test
+            script:
+              type: text/javascript
+              exec:
+                - pm.test("public adventure returns 200", function () {
+                - "  pm.response.to.have.status(200);"
+                - "});"
+                - const json = pm.response.json();
+                - pm.test("public adventure response contains item", function () {
+                - "  pm.expect(json.item).to.be.an(\"object\");"
+                - "  pm.expect(json.item.id).to.eql(pm.environment.get(\"publicAdventureId\"));"
+                - "});"
+      - name: GET adventure by id (connections without viewer)
+        request:
+          method: GET
+          url: "{{baseUrl}}/adventures/{{connectionsAdventureId}}"
+          description: Confirm a connections-only adventure is hidden without a viewer context.
+        event:
+          - listen: test
+            script:
+              type: text/javascript
+              exec:
+                - pm.test("hidden connections adventure returns 404", function () {
+                - "  pm.response.to.have.status(404);"
+                - "});"
+      - name: GET adventure by id (connections with viewer)
+        request:
+          method: GET
+          url: "{{baseUrl}}/adventures/{{connectionsAdventureId}}?viewerHandle={{connectedViewerHandle}}"
+          description: Confirm a connected viewer can resolve a connections-only adventure.
+        event:
+          - listen: test
+            script:
+              type: text/javascript
+              exec:
+                - pm.test("viewer can access connections adventure", function () {
+                - "  pm.response.to.have.status(200);"
+                - "});"
+                - const json = pm.response.json();
+                - pm.test("connections adventure response contains item", function () {
+                - "  pm.expect(json.item).to.be.an(\"object\");"
+                - "  pm.expect(json.item.id).to.eql(pm.environment.get(\"connectionsAdventureId\"));"
+                - "});"
+  - name: Profiles
+    item:
+      - name: GET profile by handle
+        request:
+          method: GET
+          url: "{{baseUrl}}/profiles/{{profileHandle}}?limit={{limit}}&offset={{offset}}"
+          description: Fetch a public profile and the adventures visible without viewer context.
+        event:
+          - listen: test
+            script:
+              type: text/javascript
+              exec:
+                - pm.test("profile returns 200", function () {
+                - "  pm.response.to.have.status(200);"
+                - "});"
+                - const json = pm.response.json();
+                - pm.test("profile payload shape is valid", function () {
+                - "  pm.expect(json.profile).to.be.an(\"object\");"
+                - "  pm.expect(json.adventures).to.be.an(\"array\");"
+                - "  pm.expect(json.paging.returned).to.be.a(\"number\");"
+                - "});"
+      - name: GET profile by handle (viewer)
+        request:
+          method: GET
+          url: "{{baseUrl}}/profiles/{{profileHandle}}?viewerHandle={{connectedViewerHandle}}&limit={{limit}}&offset={{offset}}"
+          description: Fetch a profile with connected-viewer visibility rules applied.
+        event:
+          - listen: test
+            script:
+              type: text/javascript
+              exec:
+                - pm.test("viewer profile returns 200", function () {
+                - "  pm.response.to.have.status(200);"
+                - "});"
+                - const json = pm.response.json();
+                - pm.test("viewer profile payload shape is valid", function () {
+                - "  pm.expect(json.profile).to.be.an(\"object\");"
+                - "  pm.expect(json.adventures).to.be.an(\"array\");"
+                - "  pm.expect(json.profile).to.not.have.property(\"email\");"
+                - "});"

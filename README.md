@@ -10,13 +10,14 @@ Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
    - `.postman/`
    - `postman/collections/`
    - `postman/environments/`
-4. Build or sync the collection from inside Postman instead of importing standalone export JSON files.
+4. Use the checked-in Local View resources under `postman/`.
+5. Let Postman sync edits back into this repo instead of importing standalone export JSON files.
 
-## Why This Repo Is Minimal
+## What Is Checked In
 
-The previous export-style Postman JSON files were removed on purpose.
-
-For this repo, we want Postman to own the local workspace structure so it stays compatible with Native Git rather than behaving like an import-only folder.
+- `postman/collections/hidden-adventures-slice-1.collection.yaml`
+- `postman/environments/hidden-adventures-local.environment.yaml`
+- Postman-managed workspace metadata under `.postman/`
 
 ## Local Assumptions
 
@@ -30,6 +31,17 @@ For this repo, we want Postman to own the local workspace structure so it stays 
 - `GET /api/feed`
 - `GET /api/adventures/:id`
 - `GET /api/profiles/:handle`
+
+## Example Variables
+
+The local environment includes a few concrete examples from the published migration dataset:
+
+- `publicAdventureId`
+- `connectionsAdventureId`
+- `profileHandle`
+- `connectedViewerHandle`
+
+If you republish different data, update those values from Postman or edit the environment YAML directly.
 
 ## Current API Note
 
