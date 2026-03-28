@@ -1,0 +1,3 @@
+$kind: collection
+name: Hidden Adventures Slice 1
+description: Read-only smoke tests for the local Hidden Adventures rebuild API.

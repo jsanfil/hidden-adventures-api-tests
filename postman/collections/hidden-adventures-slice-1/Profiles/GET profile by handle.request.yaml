@@ -1,0 +1,23 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/profiles/{{profileHandle}}?limit={{limit}}&offset={{offset}}'
+order: 1000
+description: Fetch a public profile and the adventures visible without viewer context.
+queryParams:
+  - key: limit
+    value: '{{limit}}'
+  - key: offset
+    value: '{{offset}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("profile returns 200", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("profile payload shape is valid", function () {
+        pm.expect(json.profile).to.be.an("object");
+        pm.expect(json.adventures).to.be.an("array");
+        pm.expect(json.paging.returned).to.be.a("number");
+      });

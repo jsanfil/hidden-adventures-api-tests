@@ -1,0 +1,20 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/adventures/{{connectionsAdventureId}}?viewerHandle={{connectedViewerHandle}}'
+order: 3000
+description: Confirm a connected viewer can resolve a connections-only adventure.
+queryParams:
+  - key: viewerHandle
+    value: '{{connectedViewerHandle}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("viewer can access connections adventure", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("connections adventure response contains item", function () {
+        pm.expect(json.item).to.be.an("object");
+        pm.expect(json.item.id).to.eql(pm.environment.get("connectionsAdventureId"));
+      });

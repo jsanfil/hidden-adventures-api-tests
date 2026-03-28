@@ -1,0 +1,18 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/health'
+order: 1000
+description: Verify the server process and Postgres health check are both up.
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("health returns 200", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("health reports ok", function () {
+        pm.expect(json.ok).to.eql(true);
+        pm.expect(json.service).to.eql("hidden-adventures-server");
+        pm.expect(json.checks.database.ok).to.eql(true);
+      });

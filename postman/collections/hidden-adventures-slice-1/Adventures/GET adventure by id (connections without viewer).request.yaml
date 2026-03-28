@@ -1,0 +1,12 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/adventures/{{connectionsAdventureId}}'
+order: 2000
+description: Confirm a connections-only adventure is hidden without a viewer context.
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("hidden connections adventure returns 404", function () {
+        pm.response.to.have.status(404);
+      });

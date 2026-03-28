@@ -1,10 +1,10 @@
 name: Hidden Adventures Local
 values:
   - key: rootUrl
-    value: http://127.0.0.1:3000
+    value: 'http://127.0.0.1:3000'
     enabled: true
   - key: baseUrl
-    value: http://127.0.0.1:3000/api
+    value: 'http://127.0.0.1:3000/api'
     enabled: true
   - key: publicAdventureId
     value: fa89fa4a-9eac-5e1e-b9a1-70de0c1ad366
@@ -19,8 +19,8 @@ values:
     value: asanfil
     enabled: true
   - key: limit
-    value: "5"
+    value: '5'
     enabled: true
   - key: offset
-    value: "0"
+    value: '0'
     enabled: true

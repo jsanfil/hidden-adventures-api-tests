@@ -1,0 +1,17 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/adventures/{{publicAdventureId}}'
+order: 1000
+description: Fetch a known public adventure detail response.
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("public adventure returns 200", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("public adventure response contains item", function () {
+        pm.expect(json.item).to.be.an("object");
+        pm.expect(json.item.id).to.eql(pm.environment.get("publicAdventureId"));
+      });

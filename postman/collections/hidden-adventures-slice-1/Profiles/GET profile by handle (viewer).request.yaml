@@ -1,0 +1,25 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/profiles/{{profileHandle}}?viewerHandle={{connectedViewerHandle}}&limit={{limit}}&offset={{offset}}'
+order: 2000
+description: Fetch a profile with connected-viewer visibility rules applied.
+queryParams:
+  - key: viewerHandle
+    value: '{{connectedViewerHandle}}'
+  - key: limit
+    value: '{{limit}}'
+  - key: offset
+    value: '{{offset}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("viewer profile returns 200", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("viewer profile payload shape is valid", function () {
+        pm.expect(json.profile).to.be.an("object");
+        pm.expect(json.adventures).to.be.an("array");
+        pm.expect(json.profile).to.not.have.property("email");
+      });
