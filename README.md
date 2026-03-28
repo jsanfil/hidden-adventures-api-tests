@@ -1,27 +1,22 @@
 # Hidden Adventures API Tests
 
-Postman collection and local environment for exercising the current Hidden Adventures rebuild API.
+Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
 
-## Files
+## Intended Workflow
 
-- `Hidden Adventures Local.postman_collection.json`
-- `Hidden Adventures Local.postman_environment.json`
+1. Open this repo in the Postman desktop app.
+2. Click **Connect to workspace**.
+3. Let Postman create and manage its Native Git structure:
+   - `.postman/`
+   - `postman/collections/`
+   - `postman/environments/`
+4. Build or sync the collection from inside Postman instead of importing standalone export JSON files.
 
-## Current API Coverage
+## Why This Repo Is Minimal
 
-- health check
-- public feed
-- feed with a connected viewer
-- public adventure detail
-- connections-only adventure detail
-- public profile
-- profile with a connected viewer
+The previous export-style Postman JSON files were removed on purpose.
 
-## Import Into Postman
-
-1. Import `Hidden Adventures Local.postman_collection.json`.
-2. Import `Hidden Adventures Local.postman_environment.json`.
-3. Select the `Hidden Adventures Local` environment.
+For this repo, we want Postman to own the local workspace structure so it stays compatible with Native Git rather than behaving like an import-only folder.
 
 ## Local Assumptions
 
@@ -29,7 +24,13 @@ Postman collection and local environment for exercising the current Hidden Adven
 - API base: `http://127.0.0.1:3000/api`
 - Docker stack is already running from the server repo
 
-## Notes
+## Suggested First Requests
 
-- `viewerHandle` is a temporary development-only stand-in for real authenticated viewer identity.
-- The collection includes one request that should return `404` for a connections-only adventure when no viewer is provided.
+- `GET /api/health`
+- `GET /api/feed`
+- `GET /api/adventures/:id`
+- `GET /api/profiles/:handle`
+
+## Current API Note
+
+`viewerHandle` is still a temporary development-only stand-in for real authenticated viewer identity until Cognito-backed viewer resolution is wired.
