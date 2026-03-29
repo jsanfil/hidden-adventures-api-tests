@@ -2,7 +2,7 @@ $kind: http-request
 method: GET
 url: '{{baseUrl}}/feed?limit={{limit}}&offset={{offset}}'
 order: 2000
-description: Return feed items visible to an authenticated viewer. Set `authToken` to a valid Cognito ID token before running this request.
+description: Return feed items visible to an authenticated viewer. Connected-viewer behavior comes only from the bearer token, never from `viewerHandle`.
 headers:
   - key: Authorization
     value: 'Bearer {{authToken}}'
@@ -21,5 +21,7 @@ scripts:
       const json = pm.response.json();
       pm.test("viewer feed payload shape is valid", function () {
         pm.expect(json.items).to.be.an("array");
+        pm.expect(json.paging.limit).to.be.a("number");
+        pm.expect(json.paging.offset).to.be.a("number");
         pm.expect(json.paging.returned).to.be.a("number");
       });

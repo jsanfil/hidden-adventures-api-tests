@@ -2,7 +2,7 @@ $kind: http-request
 method: GET
 url: '{{baseUrl}}/profiles/{{profileHandle}}?limit={{limit}}&offset={{offset}}'
 order: 1000
-description: Fetch a public profile and the adventures visible without viewer context.
+description: Fetch a public profile and the authored adventures visible without viewer context. Extra query params such as `viewerHandle` are not supported.
 queryParams:
   - key: limit
     value: '{{limit}}'
@@ -20,4 +20,5 @@ scripts:
         pm.expect(json.profile).to.be.an("object");
         pm.expect(json.adventures).to.be.an("array");
         pm.expect(json.paging.returned).to.be.a("number");
+        pm.expect(json.profile).to.not.have.property("email");
       });

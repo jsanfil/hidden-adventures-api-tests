@@ -2,7 +2,7 @@ $kind: http-request
 method: POST
 url: '{{baseUrl}}/auth/handle'
 order: 1200
-description: Complete handle selection for a new authenticated user. Set `authToken` to a valid Cognito ID token and update `desiredHandle` before running this request.
+description: Complete handle selection for an authenticated user that still needs a public handle. This route requires `Authorization: Bearer {{authToken}}` with a valid Cognito token.
 headers:
   - key: Authorization
     value: 'Bearer {{authToken}}'
@@ -21,3 +21,17 @@ scripts:
       pm.test("auth handle returns a handled status", function () {
         pm.expect([200, 409]).to.include(pm.response.code);
       });
+      const json = pm.response.json();
+      if (pm.response.code === 200) {
+        pm.test("auth handle success payload shape is valid", function () {
+          pm.expect(json.accountState).to.be.a("string");
+          pm.expect(json).to.have.property("user");
+          pm.expect(json).to.have.property("suggestedHandle");
+          pm.expect(json).to.have.property("recoveryEmail");
+        });
+      }
+      if (pm.response.code === 409) {
+        pm.test("auth handle conflict returns the locked error shape", function () {
+          pm.expect(json.error).to.eql("Handle unavailable.");
+        });
+      }

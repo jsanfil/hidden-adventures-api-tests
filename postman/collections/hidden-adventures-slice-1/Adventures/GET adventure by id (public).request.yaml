@@ -2,7 +2,7 @@ $kind: http-request
 method: GET
 url: '{{baseUrl}}/adventures/{{publicAdventureId}}'
 order: 1000
-description: Fetch a known public adventure detail response.
+description: Fetch a known public adventure detail response from the locked Slice 1 detail route.
 scripts:
   - type: afterResponse
     language: text/javascript
@@ -14,4 +14,6 @@ scripts:
       pm.test("public adventure response contains item", function () {
         pm.expect(json.item).to.be.an("object");
         pm.expect(json.item.id).to.eql(pm.environment.get("publicAdventureId"));
+        pm.expect(json.item).to.have.property("updatedAt");
+        pm.expect(json.item).to.have.property("placeLabel");
       });

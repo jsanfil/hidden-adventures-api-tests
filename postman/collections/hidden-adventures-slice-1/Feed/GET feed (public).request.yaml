@@ -2,7 +2,7 @@ $kind: http-request
 method: GET
 url: '{{baseUrl}}/feed?limit={{limit}}&offset={{offset}}'
 order: 1000
-description: Return the public feed only.
+description: Return only adventures visible without auth. Extra query params such as `viewerHandle` are not part of the locked request contract.
 queryParams:
   - key: limit
     value: '{{limit}}'
@@ -20,7 +20,15 @@ scripts:
         pm.expect(json).to.have.property("items");
         pm.expect(json).to.have.property("paging");
         pm.expect(json.items).to.be.an("array");
+        pm.expect(json.paging.limit).to.be.a("number");
+        pm.expect(json.paging.offset).to.be.a("number");
+        pm.expect(json.paging.returned).to.be.a("number");
       });
       if (json.items.length > 0) {
+        pm.test("feed item includes the locked adventure card fields", function () {
+          pm.expect(json.items[0]).to.have.property("author");
+          pm.expect(json.items[0].author).to.have.property("handle");
+          pm.expect(json.items[0]).to.have.property("stats");
+        });
         pm.environment.set("publicAdventureId", json.items[0].id);
       }
