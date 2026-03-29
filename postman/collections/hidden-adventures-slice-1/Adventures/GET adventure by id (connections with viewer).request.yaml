@@ -1,11 +1,11 @@
 $kind: http-request
 method: GET
-url: '{{baseUrl}}/adventures/{{connectionsAdventureId}}?viewerHandle={{connectedViewerHandle}}'
+url: '{{baseUrl}}/adventures/{{connectionsAdventureId}}'
 order: 3000
-description: Confirm a connected viewer can resolve a connections-only adventure.
-queryParams:
-  - key: viewerHandle
-    value: '{{connectedViewerHandle}}'
+description: Confirm an authenticated connected viewer can resolve a connections-only adventure. Set `authToken` to a valid Cognito ID token before running this request.
+headers:
+  - key: Authorization
+    value: 'Bearer {{authToken}}'
 scripts:
   - type: afterResponse
     language: text/javascript

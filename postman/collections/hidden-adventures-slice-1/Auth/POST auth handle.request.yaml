@@ -1,0 +1,23 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/auth/handle'
+order: 1200
+description: Complete handle selection for a new authenticated user. Set `authToken` to a valid Cognito ID token and update `desiredHandle` before running this request.
+headers:
+  - key: Authorization
+    value: 'Bearer {{authToken}}'
+  - key: Content-Type
+    value: application/json
+body:
+  mode: raw
+  raw: |-
+    {
+      "handle": "{{desiredHandle}}"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("auth handle returns a handled status", function () {
+        pm.expect([200, 409]).to.include(pm.response.code);
+      });

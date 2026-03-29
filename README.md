@@ -2,6 +2,13 @@
 
 Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
 
+## Role In The Program
+
+- this repo is for manual API exploration and troubleshooting
+- it should stay current with server contract changes
+- it is not the official server test suite or acceptance runner
+- the official server verification path is the Vitest suite in `hidden-adventures-server`
+
 ## Intended Workflow
 
 1. Open this repo in the Postman desktop app.
@@ -15,8 +22,8 @@ Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
 
 ## What Is Checked In
 
-- `postman/collections/hidden-adventures-slice-1.collection.yaml`
-- `postman/environments/hidden-adventures-local.environment.yaml`
+- authenticated and unauthenticated Slice 1 request definitions under `postman/collections/hidden-adventures-slice-1/`
+- `postman/environments/Hidden Adventures Local.environment.yaml`
 - Postman-managed workspace metadata under `.postman/`
 
 ## Local Assumptions
@@ -24,10 +31,12 @@ Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
 - server root: `http://127.0.0.1:3000`
 - API base: `http://127.0.0.1:3000/api`
 - Docker stack is already running from the server repo
+- authenticated requests use a real bearer token, not `viewerHandle`
 
 ## Suggested First Requests
 
 - `GET /api/health`
+- `GET /api/auth/bootstrap`
 - `GET /api/feed`
 - `GET /api/adventures/:id`
 - `GET /api/profiles/:handle`
@@ -39,10 +48,11 @@ The local environment includes a few concrete examples from the published migrat
 - `publicAdventureId`
 - `connectionsAdventureId`
 - `profileHandle`
-- `connectedViewerHandle`
+- `authToken`
+- `desiredHandle`
 
 If you republish different data, update those values from Postman or edit the environment YAML directly.
 
 ## Current API Note
 
-`viewerHandle` is still a temporary development-only stand-in for real authenticated viewer identity until Cognito-backed viewer resolution is wired.
+Connected-viewer behavior now comes only from authenticated auth context. Any request definition that models a viewer should use an `Authorization: Bearer {{authToken}}` header and should not send `viewerHandle`.

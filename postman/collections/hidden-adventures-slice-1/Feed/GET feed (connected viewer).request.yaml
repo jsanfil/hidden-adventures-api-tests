@@ -1,11 +1,12 @@
 $kind: http-request
 method: GET
-url: '{{baseUrl}}/feed?viewerHandle={{connectedViewerHandle}}&limit={{limit}}&offset={{offset}}'
+url: '{{baseUrl}}/feed?limit={{limit}}&offset={{offset}}'
 order: 2000
-description: Return feed items visible to a connected viewer.
+description: Return feed items visible to an authenticated viewer. Set `authToken` to a valid Cognito ID token before running this request.
+headers:
+  - key: Authorization
+    value: 'Bearer {{authToken}}'
 queryParams:
-  - key: viewerHandle
-    value: '{{connectedViewerHandle}}'
   - key: limit
     value: '{{limit}}'
   - key: offset

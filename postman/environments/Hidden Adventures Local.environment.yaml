@@ -15,8 +15,11 @@ values:
   - key: profileHandle
     value: jacksanfil
     enabled: true
-  - key: connectedViewerHandle
-    value: asanfil
+  - key: authToken
+    value: REPLACE_WITH_COGNITO_ID_TOKEN
+    enabled: true
+  - key: desiredHandle
+    value: freshslice1handle
     enabled: true
   - key: limit
     value: '5'

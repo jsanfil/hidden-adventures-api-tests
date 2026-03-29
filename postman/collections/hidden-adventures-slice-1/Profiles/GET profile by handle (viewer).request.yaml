@@ -1,11 +1,12 @@
 $kind: http-request
 method: GET
-url: '{{baseUrl}}/profiles/{{profileHandle}}?viewerHandle={{connectedViewerHandle}}&limit={{limit}}&offset={{offset}}'
+url: '{{baseUrl}}/profiles/{{profileHandle}}?limit={{limit}}&offset={{offset}}'
 order: 2000
-description: Fetch a profile with connected-viewer visibility rules applied.
+description: Fetch a profile with authenticated-viewer visibility rules applied. Set `authToken` to a valid Cognito ID token before running this request.
+headers:
+  - key: Authorization
+    value: 'Bearer {{authToken}}'
 queryParams:
-  - key: viewerHandle
-    value: '{{connectedViewerHandle}}'
   - key: limit
     value: '{{limit}}'
   - key: offset

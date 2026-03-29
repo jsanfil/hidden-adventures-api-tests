@@ -1,0 +1,20 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/auth/bootstrap'
+order: 1100
+description: Resolve the authenticated identity into the rebuild account state. Set `authToken` to a valid Cognito ID token before running this request.
+headers:
+  - key: Authorization
+    value: 'Bearer {{authToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("auth bootstrap returns 200", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("auth bootstrap payload shape is valid", function () {
+        pm.expect(json.accountState).to.be.a("string");
+        pm.expect(json).to.have.property("suggestedHandle");
+      });
