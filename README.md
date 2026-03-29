@@ -8,6 +8,7 @@ Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
 - it should stay current with server contract changes
 - it is not the official server test suite or acceptance runner
 - the official server verification path is the Vitest suite in `hidden-adventures-server`
+- the current Slice 1 contract lock is documented in `hidden-adventures-server/docs/slice-1-contract.md`
 
 ## Intended Workflow
 
@@ -56,3 +57,14 @@ If you republish different data, update those values from Postman or edit the en
 ## Current API Note
 
 Connected-viewer behavior now comes only from authenticated auth context. Any request definition that models a viewer should use an `Authorization: Bearer {{authToken}}` header and should not send `viewerHandle`.
+
+## Locked Slice 1 Surface
+
+- `GET /api/health`
+- `GET /api/feed`
+- `GET /api/adventures/:id`
+- `GET /api/profiles/:handle`
+- `GET /api/auth/bootstrap`
+- `POST /api/auth/handle`
+
+Anything outside that set should be treated as additive server work, not an implied Slice 1 contract.
