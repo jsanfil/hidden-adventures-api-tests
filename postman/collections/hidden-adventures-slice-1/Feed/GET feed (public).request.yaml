@@ -2,7 +2,10 @@ $kind: http-request
 method: GET
 url: '{{baseUrl}}/feed?limit={{limit}}&offset={{offset}}'
 order: 1000
-description: Return only adventures visible without auth. Extra query params such as `viewerHandle` are not part of the locked request contract.
+description: Return adventures visible to an authenticated viewer who is not connected to the author. Extra query params such as `viewerHandle` are not part of the locked request contract.
+headers:
+  - key: Authorization
+    value: 'Bearer {{nonConnectedViewerToken}}'
 queryParams:
   - key: limit
     value: '{{limit}}'
@@ -12,7 +15,7 @@ scripts:
   - type: afterResponse
     language: text/javascript
     code: |-
-      pm.test("public feed returns 200", function () {
+      pm.test("non-connected viewer feed returns 200", function () {
         pm.response.to.have.status(200);
       });
       const json = pm.response.json();

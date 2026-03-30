@@ -5,7 +5,7 @@ order: 2000
 description: Return feed items visible to an authenticated viewer. Connected-viewer behavior comes only from the bearer token, never from `viewerHandle`.
 headers:
   - key: Authorization
-    value: 'Bearer {{authToken}}'
+    value: 'Bearer {{connectedViewerToken}}'
 queryParams:
   - key: limit
     value: '{{limit}}'
@@ -15,7 +15,7 @@ scripts:
   - type: afterResponse
     language: text/javascript
     code: |-
-      pm.test("viewer feed returns 200", function () {
+      pm.test("connected viewer feed returns 200", function () {
         pm.response.to.have.status(200);
       });
       const json = pm.response.json();

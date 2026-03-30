@@ -2,10 +2,11 @@ $kind: http-request
 method: GET
 url: '{{baseUrl}}/auth/bootstrap'
 order: 1100
-description: Resolve the authenticated identity into the locked Slice 1 bootstrap payload. This route requires `Authorization: Bearer {{authToken}}` with a valid Cognito token.
+description: |-
+  Resolve the authenticated identity into the locked Slice 1 bootstrap payload. Local smoke checks use `Authorization: Bearer {{newUserToken}}` to exercise the unlinked-user path.
 headers:
   - key: Authorization
-    value: 'Bearer {{authToken}}'
+    value: 'Bearer {{newUserToken}}'
 scripts:
   - type: afterResponse
     language: text/javascript

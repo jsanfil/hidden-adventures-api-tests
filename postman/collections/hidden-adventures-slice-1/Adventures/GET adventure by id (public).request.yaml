@@ -2,7 +2,10 @@ $kind: http-request
 method: GET
 url: '{{baseUrl}}/adventures/{{publicAdventureId}}'
 order: 1000
-description: Fetch a known public adventure detail response from the locked Slice 1 detail route.
+description: Fetch a known public adventure detail response from the locked Slice 1 detail route using an authenticated local fixture viewer.
+headers:
+  - key: Authorization
+    value: 'Bearer {{nonConnectedViewerToken}}'
 scripts:
   - type: afterResponse
     language: text/javascript

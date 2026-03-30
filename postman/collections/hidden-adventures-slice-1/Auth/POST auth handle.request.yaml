@@ -2,15 +2,16 @@ $kind: http-request
 method: POST
 url: '{{baseUrl}}/auth/handle'
 order: 1200
-description: Complete handle selection for an authenticated user that still needs a public handle. This route requires `Authorization: Bearer {{authToken}}` with a valid Cognito token.
+description: |-
+  Complete handle selection for an authenticated user that still needs a public handle. Local smoke checks use `Authorization: Bearer {{newUserToken}}` to exercise the fixture-backed signup flow.
 headers:
   - key: Authorization
-    value: 'Bearer {{authToken}}'
+    value: 'Bearer {{newUserToken}}'
   - key: Content-Type
     value: application/json
 body:
-  mode: raw
-  raw: |-
+  type: json
+  content: |-
     {
       "handle": "{{desiredHandle}}"
     }

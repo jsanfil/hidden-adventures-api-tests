@@ -7,19 +7,25 @@ values:
     value: 'http://127.0.0.1:3000/api'
     enabled: true
   - key: publicAdventureId
-    value: fa89fa4a-9eac-5e1e-b9a1-70de0c1ad366
+    value: 3a64b684-1bb8-537c-851c-ac911a811735
     enabled: true
   - key: connectionsAdventureId
-    value: 4a37f341-68ae-5e2a-93cb-f23382477009
+    value: 33e511cc-ecac-5966-8cdb-3314dec07d72
     enabled: true
   - key: profileHandle
-    value: jacksanfil
+    value: fixture_author
     enabled: true
-  - key: authToken
-    value: REPLACE_WITH_COGNITO_ID_TOKEN
+  - key: connectedViewerToken
+    value: 'local:connected_viewer'
+    enabled: true
+  - key: nonConnectedViewerToken
+    value: 'local:non_connected_viewer'
+    enabled: true
+  - key: newUserToken
+    value: 'local:new_user'
     enabled: true
   - key: desiredHandle
-    value: freshslice1handle
+    value: fixture_new_handle
     enabled: true
   - key: limit
     value: '5'

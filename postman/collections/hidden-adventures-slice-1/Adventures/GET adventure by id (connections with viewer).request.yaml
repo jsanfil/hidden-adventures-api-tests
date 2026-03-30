@@ -5,7 +5,7 @@ order: 3000
 description: Confirm an authenticated connected viewer can resolve a connections-only adventure. Set `authToken` to a valid Cognito ID token before running this request.
 headers:
   - key: Authorization
-    value: 'Bearer {{authToken}}'
+    value: 'Bearer {{connectedViewerToken}}'
 scripts:
   - type: afterResponse
     language: text/javascript

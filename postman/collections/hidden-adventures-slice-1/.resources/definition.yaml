@@ -1,3 +1,3 @@
 $kind: collection
 name: Hidden Adventures Slice 1
-description: Manual Slice 1 smoke requests for the currently implemented rebuild API surface. Keep aligned with the live server routes and bearer-token auth behavior, but treat Vitest in hidden-adventures-server as the acceptance source.
+description: Manual Slice 1 smoke requests for the currently implemented rebuild API surface. All business routes use bearer auth, with stable `local:*` fixture tokens for local testing. Keep aligned with the live server routes, but treat Vitest in hidden-adventures-server as the acceptance source.

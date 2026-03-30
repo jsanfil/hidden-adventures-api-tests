@@ -2,11 +2,14 @@ $kind: http-request
 method: GET
 url: '{{baseUrl}}/adventures/{{connectionsAdventureId}}'
 order: 2000
-description: Confirm a connections-only adventure is hidden without a viewer context.
+description: Confirm a connections-only adventure stays hidden from an authenticated viewer who is not connected to the author.
+headers:
+  - key: Authorization
+    value: 'Bearer {{nonConnectedViewerToken}}'
 scripts:
   - type: afterResponse
     language: text/javascript
     code: |-
-      pm.test("hidden connections adventure returns 404", function () {
+      pm.test("non-connected viewer still gets 404", function () {
         pm.response.to.have.status(404);
       });
