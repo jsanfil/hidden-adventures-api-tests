@@ -1,24 +1,27 @@
 $kind: http-request
+name: GET feed (public)
 method: GET
-url: '{{baseUrl}}/feed?limit={{limit}}&offset={{offset}}'
+url: "{{baseUrl}}/feed?limit={{limit}}&offset={{offset}}"
+auth:
+  type: bearer
+  credentials:
+    token: "{{vault:auth-token}}"
 order: 1000
-description: Return adventures visible to an authenticated viewer who is not connected to the author. Extra query params such as `viewerHandle` are not part of the locked request contract.
-headers:
-  - key: Authorization
-    value: 'Bearer {{nonConnectedViewerToken}}'
+description: Return adventures visible to an authenticated viewer who is not
+  connected to the author. Extra query params such as `viewerHandle` are not
+  part of the locked request contract.
 queryParams:
-  - key: limit
-    value: '{{limit}}'
-  - key: offset
-    value: '{{offset}}'
+  limit: "{{limit}}"
+  offset: "{{offset}}"
 scripts:
   - type: afterResponse
-    language: text/javascript
-    code: |-
+    code: >-
       pm.test("non-connected viewer feed returns 200", function () {
         pm.response.to.have.status(200);
       });
+
       const json = pm.response.json();
+
       pm.test("feed payload shape is valid", function () {
         pm.expect(json).to.have.property("items");
         pm.expect(json).to.have.property("paging");
@@ -27,6 +30,7 @@ scripts:
         pm.expect(json.paging.offset).to.be.a("number");
         pm.expect(json.paging.returned).to.be.a("number");
       });
+
       if (json.items.length > 0) {
         pm.test("feed item includes the locked adventure card fields", function () {
           pm.expect(json.items[0]).to.have.property("author");
@@ -35,3 +39,4 @@ scripts:
         });
         pm.environment.set("publicAdventureId", json.items[0].id);
       }
+    language: text/javascript

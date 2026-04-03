@@ -3,9 +3,10 @@ method: GET
 url: '{{baseUrl}}/adventures/{{connectionsAdventureId}}'
 order: 2000
 description: Confirm a connections-only adventure stays hidden from an authenticated viewer who is not connected to the author.
-headers:
-  - key: Authorization
-    value: 'Bearer {{nonConnectedViewerToken}}'
+auth:
+  type: bearer
+  credentials:
+    token: '{{nonConnectedViewerToken}}'
 scripts:
   - type: afterResponse
     language: text/javascript

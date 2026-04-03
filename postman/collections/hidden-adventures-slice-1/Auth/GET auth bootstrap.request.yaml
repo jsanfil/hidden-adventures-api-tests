@@ -4,9 +4,10 @@ url: '{{baseUrl}}/auth/bootstrap'
 order: 1100
 description: |-
   Resolve the authenticated identity into the locked Slice 1 bootstrap payload. Local smoke checks use `Authorization: Bearer {{newUserToken}}` to exercise the unlinked-user path.
-headers:
-  - key: Authorization
-    value: 'Bearer {{newUserToken}}'
+auth:
+  type: bearer
+  credentials:
+    token: '{{newUserToken}}'
 scripts:
   - type: afterResponse
     language: text/javascript

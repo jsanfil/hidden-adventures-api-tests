@@ -3,9 +3,10 @@ method: GET
 url: '{{baseUrl}}/feed?limit={{limit}}&offset={{offset}}'
 order: 2000
 description: Return feed items visible to an authenticated viewer. Connected-viewer behavior comes only from the bearer token, never from `viewerHandle`.
-headers:
-  - key: Authorization
-    value: 'Bearer {{connectedViewerToken}}'
+auth:
+  type: bearer
+  credentials:
+    token: '{{connectedViewerToken}}'
 queryParams:
   - key: limit
     value: '{{limit}}'

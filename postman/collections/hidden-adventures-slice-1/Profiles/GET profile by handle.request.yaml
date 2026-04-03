@@ -3,9 +3,10 @@ method: GET
 url: '{{baseUrl}}/profiles/{{profileHandle}}?limit={{limit}}&offset={{offset}}'
 order: 1000
 description: Fetch a profile and the authored adventures visible to an authenticated viewer with no accepted connection to the author. Extra query params such as `viewerHandle` are not supported.
-headers:
-  - key: Authorization
-    value: 'Bearer {{nonConnectedViewerToken}}'
+auth:
+  type: bearer
+  credentials:
+    token: '{{nonConnectedViewerToken}}'
 queryParams:
   - key: limit
     value: '{{limit}}'

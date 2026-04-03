@@ -4,9 +4,11 @@ url: '{{baseUrl}}/auth/handle'
 order: 1200
 description: |-
   Complete handle selection for an authenticated user that still needs a public handle. Local smoke checks use `Authorization: Bearer {{newUserToken}}` to exercise the fixture-backed signup flow.
+auth:
+  type: bearer
+  credentials:
+    token: '{{newUserToken}}'
 headers:
-  - key: Authorization
-    value: 'Bearer {{newUserToken}}'
   - key: Content-Type
     value: application/json
 body:
