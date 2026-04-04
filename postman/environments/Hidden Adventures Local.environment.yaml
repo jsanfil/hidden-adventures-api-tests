@@ -27,6 +27,12 @@ values:
   - key: desiredHandle
     value: fixture_new_handle
     enabled: true
+  - key: publicAdventureMediaId
+    value: ''
+    enabled: true
+  - key: connectionsAdventureMediaId
+    value: ''
+    enabled: true
   - key: limit
     value: '5'
     enabled: true

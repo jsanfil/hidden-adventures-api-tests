@@ -40,6 +40,8 @@ Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
 - `GET /api/auth/bootstrap`
 - `GET /api/feed`
 - `GET /api/adventures/:id`
+- `GET /api/adventures/:id/media`
+- `GET /api/media/:id`
 - `GET /api/profiles/:handle`
 - `GET /api/me/profile`
 - `PUT /api/me/profile`
@@ -55,6 +57,8 @@ The local environment includes a few concrete examples from the published migrat
 - `nonConnectedViewerToken`
 - `newUserToken`
 - `desiredHandle`
+- `publicAdventureMediaId`
+- `connectionsAdventureMediaId`
 - `profileDisplayName`
 - `profileBio`
 - `profileHomeCity`
@@ -71,6 +75,8 @@ Connected-viewer behavior now comes only from authenticated auth context. Any re
 - `GET /api/health`
 - `GET /api/feed`
 - `GET /api/adventures/:id`
+- `GET /api/adventures/:id/media`
+- `GET /api/media/:id`
 - `GET /api/profiles/:handle`
 - `GET /api/me/profile`
 - `PUT /api/me/profile`

@@ -1,0 +1,16 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/media/{{connectionsAdventureMediaId}}'
+order: 1400
+description: Verify that a media id from a connections-only adventure stays inaccessible to a non-connected viewer.
+auth:
+  type: bearer
+  credentials:
+    token: '{{nonConnectedViewerToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("connections media returns 404 for non-connected viewer", function () {
+        pm.response.to.have.status(404);
+      });

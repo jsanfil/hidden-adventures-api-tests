@@ -1,0 +1,24 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/adventures/{{connectionsAdventureId}}/media'
+order: 1200
+description: Fetch ordered media refs for a connections-only adventure using the connected viewer token, then store the first media id for follow-up media checks.
+auth:
+  type: bearer
+  credentials:
+    token: '{{connectedViewerToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("connections adventure media returns 200 for connected viewer", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("connections adventure media payload contains items", function () {
+        pm.expect(json.items).to.be.an("array");
+        pm.expect(json.items.length).to.be.greaterThan(0);
+      });
+      if (json.items.length > 0) {
+        pm.environment.set("connectionsAdventureMediaId", json.items[0].id);
+      }

@@ -1,0 +1,24 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/adventures/{{publicAdventureId}}/media'
+order: 1100
+description: Fetch the ordered media references for a visible public adventure detail screen.
+auth:
+  type: bearer
+  credentials:
+    token: '{{nonConnectedViewerToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("public adventure media returns 200", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("public adventure media payload contains items", function () {
+        pm.expect(json.items).to.be.an("array");
+        pm.expect(json.items.length).to.be.greaterThan(0);
+      });
+      if (json.items.length > 0) {
+        pm.environment.set("publicAdventureMediaId", json.items[0].id);
+      }
