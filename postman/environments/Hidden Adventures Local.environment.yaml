@@ -33,3 +33,15 @@ values:
   - key: offset
     value: '0'
     enabled: true
+  - key: profileDisplayName
+    value: Fixture Viewer
+    enabled: true
+  - key: profileBio
+    value: Local fixture profile bio.
+    enabled: true
+  - key: profileHomeCity
+    value: Seattle
+    enabled: true
+  - key: profileHomeRegion
+    value: WA
+    enabled: true

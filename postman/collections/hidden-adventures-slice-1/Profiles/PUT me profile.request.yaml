@@ -1,0 +1,34 @@
+$kind: http-request
+name: PUT me profile
+method: PUT
+url: '{{baseUrl}}/me/profile'
+order: 4000
+description: Update the authenticated viewer's profile fields.
+auth:
+  type: bearer
+  credentials:
+    token: '{{connectedViewerToken}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "displayName": "{{profileDisplayName}}",
+      "bio": "{{profileBio}}",
+      "homeCity": "{{profileHomeCity}}",
+      "homeRegion": "{{profileHomeRegion}}"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("me profile update returns 200", function () {
+        pm.response.to.have.status(200);
+      });
+      const json = pm.response.json();
+      pm.test("me profile update payload shape is valid", function () {
+        pm.expect(json.profile).to.be.an("object");
+        pm.expect(json.profile).to.not.have.property("email");
+      });

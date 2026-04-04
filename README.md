@@ -41,6 +41,8 @@ Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
 - `GET /api/feed`
 - `GET /api/adventures/:id`
 - `GET /api/profiles/:handle`
+- `GET /api/me/profile`
+- `PUT /api/me/profile`
 
 ## Example Variables
 
@@ -49,21 +51,29 @@ The local environment includes a few concrete examples from the published migrat
 - `publicAdventureId`
 - `connectionsAdventureId`
 - `profileHandle`
-- `authToken`
+- `connectedViewerToken`
+- `nonConnectedViewerToken`
+- `newUserToken`
 - `desiredHandle`
+- `profileDisplayName`
+- `profileBio`
+- `profileHomeCity`
+- `profileHomeRegion`
 
 If you republish different data, update those values from Postman or edit the environment YAML directly.
 
 ## Current API Note
 
-Connected-viewer behavior now comes only from authenticated auth context. Any request definition that models a viewer should use an `Authorization: Bearer {{authToken}}` header and should not send `viewerHandle`.
+Connected-viewer behavior now comes only from authenticated auth context. Any request definition that models a viewer should use `Authorization: Bearer {{connectedViewerToken}}` (or `{{nonConnectedViewerToken}}`) and should not send `viewerHandle`.
 
-## Locked Slice 1 Surface
+## Current API Surface (Server)
 
 - `GET /api/health`
 - `GET /api/feed`
 - `GET /api/adventures/:id`
 - `GET /api/profiles/:handle`
+- `GET /api/me/profile`
+- `PUT /api/me/profile`
 - `GET /api/auth/bootstrap`
 - `POST /api/auth/handle`
 
