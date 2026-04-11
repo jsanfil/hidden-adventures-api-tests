@@ -8,7 +8,7 @@ Local repo for Postman Native Git testing of the Hidden Adventures rebuild API.
 - it should stay current with server contract changes
 - it is not the official server test suite or acceptance runner
 - the official server verification path is the Vitest suite in `hidden-adventures-server`
-- the current Slice 1 contract lock is documented in `hidden-adventures-server/docs/slice-1-contract.md`
+- the current implemented server contract is documented in `hidden-adventures-server/docs/contract.md`
 
 ## Intended Workflow
 
